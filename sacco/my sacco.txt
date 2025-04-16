@@ -1,0 +1,106 @@
+import java.util.Scanner;
+import java.util.Random;
+
+class Main {
+    public static void main(String[] args) {
+        System.out.println("Please select from the menu:");
+        System.out.println("1. LOGIN");
+        System.out.println("2. CREATE ACCOUNT");
+        System.out.println("3. EXIT");
+
+        Scanner scanner = new Scanner(System.in);
+        int option = scanner.nextInt(); 
+
+        UserInformation userInfo = new UserInformation();
+        if (option == 1) {
+            System.out.println("LOGIN");
+            System.out.print("Enter account number: ");
+            long accountNumber = scanner.nextLong(); 
+            if (accountNumber == userInfo.getAccountNumber()) {
+                System.out.println("Login successful!");
+                System.out.println("1. Deposit");
+                System.out.println("2. Withdraw");
+                int choice = scanner.nextInt();
+
+                if (choice == 1) {
+                    userInfo.makeDeposit(scanner);
+                } else if (choice == 2) {
+                    userInfo.makeWithdrawal(scanner);
+                } else {
+                    System.out.println("Invalid choice.");
+                }
+            } else {
+                System.out.println("Invalid account number.");
+            }
+        } else if (option == 2) {
+            System.out.println("CREATE ACCOUNT");
+            userInfo.UserInfo();
+        } else if (option == 3) {
+            System.out.println("EXIT");
+        } else {
+            System.out.println("INVALID INPUT!!!!!!!");
+        }
+
+        scanner.close(); 
+    }
+}
+
+class UserInformation {
+    private long accountNumber; 
+    private double balance = 0.0; 
+
+    public void UserInfo() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter user name: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Enter email address: ");
+        String email = scanner.nextLine();
+
+        System.out.print("Enter your phone number: ");
+        String phoneNumber = scanner.nextLine();
+
+        Random random = new Random();
+        accountNumber = 1000000000L + (long) (random.nextDouble() * 9000000000L); 
+        System.out.println("\nYour account has been created successfully!");
+        System.out.println("Your Account Number: " + accountNumber);
+
+        makeDeposit(scanner);
+        System.out.println("\nAccount Details:");
+        System.out.println("Name: " + name);
+        System.out.println("Email: " + email);
+        System.out.println("Phone Number: " + phoneNumber);
+        System.out.println("Account Number: " + accountNumber);
+        System.out.println("Current Balance: UGX" + balance);
+    }
+    public void makeDeposit(Scanner scanner) {
+        System.out.print("Enter the amount to deposit: ");
+        double depositAmount = scanner.nextDouble();
+        if (depositAmount > 0) {
+            balance += depositAmount; // Update balance
+            System.out.println("Deposit successful! Your new balance is: UGX" + balance);
+        } else {
+            System.out.println("Invalid deposit amount.");
+        }
+    }
+    public void makeWithdrawal(Scanner scanner) {
+        System.out.print("Enter the amount to withdraw: ");
+        double withdrawalAmount = scanner.nextDouble();
+
+        if (withdrawalAmount > 0 && withdrawalAmount <= balance) {
+            balance -= withdrawalAmount; 
+            System.out.println("Withdrawal successful! Your remaining balance is: $" + balance);
+        } else if (withdrawalAmount > balance) {
+            System.out.println("Insufficient balance.");
+        } else {
+            System.out.println("Invalid withdrawal amount.");
+        }
+    }
+
+    public long getAccountNumber() {
+        return accountNumber;
+    }
+}
+
+    
